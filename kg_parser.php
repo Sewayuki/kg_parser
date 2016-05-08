@@ -12,6 +12,7 @@ class KageParser
 
 	public function getAnimeInfo($aid){
 		$html = file_get_contents($this->kg_url . 'base.php?id=' . $aid);
+		$html = iconv('windows-1251', 'UTF-8', $html);
 		$wa_pattern = '#http://www\.world-art\.ru/animation/animation\.php\?id=\d+#';
 		$kg_title_pattern = '#<title>(.)+</title>#';
 		preg_match($wa_pattern, $html, $regwa);
@@ -28,6 +29,7 @@ class KageParser
 		$start = 0;
 		for ($i=0; $i < $pages; $i++) { 
 			$html = file_get_contents($forum_url . $start);
+			$html = iconv('windows-1251', 'UTF-8', $html);
 			preg_match_all($forum_pattern, $html, $regf);
 			$x = 0;
 			foreach ($regf['topicId'] as $key) {
