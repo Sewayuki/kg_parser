@@ -49,7 +49,7 @@ class KageParser
 
 	public function base($aid){
 		$archive_url = $this->kg_url . 'base.php?id=' . $aid;
-		$archive_pattern = '#<td class="row3" width="290"><b>(?P<series>.+?)<\/b><\/td>.+?base\.php\?cntr=(?P<translateId>\d+?)"><f.+?>(?P<formate>.+?)<\/fo.+?row3">(?<date>.+?)<\/td>.+?row1">(?P<staff>.+?)<table width="100%">#s';
+		$archive_pattern = '#<td class="row3" width="290"><b>(?P<series>.+?)<\/b><\/td>.+?base\.php\?cntr=(?P<translateId>\d+?)"><f.+?>(?P<format>.+?)<\/fo.+?row3">(?<date>.+?)<\/td>.+?row1">(?P<staff>.+?)<table width="100%">#s';
 		$staff_pattern = '#<td align="center" valign="middle">(?P<role>.*?)(:\s)*<a href="base\.php\?au=(?P<subberId>\d+)"><b>(?P<nickname>.+?)<\/b><\/a>.+?img src=gif\/(?P<avatar>.+?)\swidth#s';
 
 		$html = file_get_contents($archive_url);
@@ -72,12 +72,22 @@ class KageParser
 			$translations[] = array(
 				'translateId' => $regar['translateId'][$x],
 				'series' => $regar['series'][$x],
-				'formate' => $regar['formate'][$x],
+				'format' => $regar['format'][$x],
 				'date' => $regar['date'][$x],
 				'staff' => $staffInfo,
 				);
 			++$x;
 		}
 		return $translations;
+	}
+
+	public function isTopicDead($tid){
+		$topic_url = $this->kg_url . 'forum/viewtopic.php?t=' . $tid;
+		$html = file_get_contents($topic_url);
+		$html = iconv('windows-1251', 'UTF-8', $html);
+		$not_pattern = '<td align="center"><span class="gen">Темы, которую вы запросили, не существует.</span></td>';
+		if (strpos($html, $not_pattern) !== false) {
+                return true;
+            }
 	}
 }

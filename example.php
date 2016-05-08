@@ -46,3 +46,4 @@ foreach ($translations as $translate) {
 	}
 	echo "\n\n";
 }
+
