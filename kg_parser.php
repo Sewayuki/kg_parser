@@ -90,4 +90,19 @@ class KageParser
                 return true;
             }
 	}
+
+	public function isArchiveDead($aid, $mode = 1){
+		if($mode == 1){
+		$archive_url =  $this->kg_url . 'base.php?id=' . $aid;
+		$not_pattern = '<td align="center"><b>Нет данных на anime';
+	}elseif($mode == 2){
+		$archive_url =  $this->kg_url . 'base.php?au=' . $aid;
+		$not_pattern = '<td align="center"><b>Нет данных на author';
+	}
+		$html = file_get_contents($archive_url);
+		$html = iconv('windows-1251', 'UTF-8', $html);
+		if (strpos($html, $not_pattern) !== false) {
+                return true;
+            }
+	}
 }

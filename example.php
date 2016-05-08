@@ -30,7 +30,7 @@ foreach ($topics as $topic) {
 $archive_parser = new KageParser();
 
 //айди тайтла
-$id = '7000';
+$id = '5191';
 $translations = $archive_parser->base($id);
 
 foreach ($translations as $translate) {
