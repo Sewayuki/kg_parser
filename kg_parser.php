@@ -1,6 +1,6 @@
 <?php
 
-/*
+/*forum()
 */
 class KageParser
 {
@@ -18,5 +18,30 @@ class KageParser
 		preg_match($kg_title_pattern, $html, $regkt);
 		$kage_title = $regkt[1];
 		$wa_link = $regwa[0];
+		#>_>
+	}
+
+	public function forum($forum, $pages = 1){
+		$forum_url = $this->kg_url . 'forum/viewforum.php?f=' . $forum . '&topicdays=0&start=';
+		#$forum_pattern = '#class=.topictitle.><a href=.viewtopic\.php\?t=(?P<topicId>\d+).*?class=.topictitle.>(?P<topicTitle>.*?)<\/a><\/span>.*?viewprofile&amp;u=(?P<authorId>\d+).>(?P<authorName>[a-zA-ZА-Яа-я\d\s]+?)<\/a><\/span>.*?nowrap=.nowrap.><span class=.postdetails.>(?P<lastMsg>.*?)<br \/>#s';
+		$forum_pattern = '#class=.topictitle.><a href=.viewtopic\.php\?t=(?P<topicId>\d+).*?class=.topictitle.>(?P<topicTitle>.*?)<\/a><\/span>.*?viewprofile&amp;u=(?P<authorId>\d+)[&;>=a-z\d]*(.>)(?P<authorName>.+?)<\/a><\/span>.*?nowrap=.nowrap.><span class=.postdetails.>(?P<lastMsg>.*?)<br \/>#s';
+		$start = 0;
+		for ($i=0; $i < $pages; $i++) { 
+			$html = file_get_contents($forum_url . $start);
+			preg_match_all($forum_pattern, $html, $regf);
+			$x = 0;
+			foreach ($regf['topicId'] as $key) {
+				$resp[] = array(
+					'topicId' => $regf['topicId'][$x],
+					'topicTitle' => $regf['topicTitle'][$x],
+					'authorId' => $regf['authorId'][$x],
+					'authorName' => $regf['authorName'][$x],
+					'lastMsg' => $regf['lastMsg'][$x]
+					);
+				++$x;
+			}
+			$start += 50;
+		}
+		return $resp;
 	}
 }
