@@ -1,7 +1,7 @@
 <?php
 require_once 'kg_parser.php';
 
-//~~~~ПРИМЕР 1~~~~//
+///~~~~ПРИМЕР 1~~~~//
 
 $forum_parser = new KageParser();
 
@@ -25,24 +25,23 @@ foreach ($topics as $topic) {
 }
 
 
-//~~~~ПРИМЕР 2~~~~//
+//~~~~ПРИМЕР 2~~~~//*/
 
 $archive_parser = new KageParser();
 
 //айди тайтла
-$id = '5191';
+$id = '7000';
 $translations = $archive_parser->base($id);
 
-
 foreach ($translations as $translate) {
-	echo $translate['translateId'] . ' -> ' . $translate['series'] . "\n";
+
 	//Пример вывода 10566 -> ТВ 1-10
 	//все ключи вывода см. в readme
-
+    echo $translate['translateId'] . ' -> ' . $t1 . "\n";
 	//работаем с массивом переводчиков
 	foreach ($translate['staff'] as $subber) {
 		echo $subber['role'] . ' -> ' . $subber['nickname'] . "\n";
-		//Пример вывода Редактор/Тайм-код/Оформление -> Xander
+		//Пример вывода Переводчик -> Sewayuki
 	}
 	echo "\n\n";
 }
