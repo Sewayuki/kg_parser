@@ -105,4 +105,22 @@ class KageParser
                 return true;
             }
 	}
+	
+	public function user($uid){
+		$user_url = $this->kg_url . 'base.php?au=' . $uid;
+		$html = file_get_contents($user_url);
+		$html = iconv('windows-1251', 'UTF-8', $html);
+		$user_pattern = '#<td class="row3">(?P<nickname>.+?)<\/td>.+?mail:<\/b><\/td><td>(?P<email>.+?)<\/td>.+?viewprofile&u=(?P<userId>\d+).+?(Сайт:<\/b><\/td><td>\[<a href=")(?P<site>.+?)?".+?<\/b><blockquote>#s';
+		$transl_pattern = '#<a href="base\.php\?id=(?P<translId>\d+)">(?P<translTitle>.+?) <small>\((?P<role>.+?)\)<\/small>#s';
+		preg_match_all($user_pattern, $html, $regus, PREG_SET_ORDER);
+		preg_match_all($transl_pattern, $html, $regtr, PREG_SET_ORDER);
+
+		$user_info = array(
+			'nickname' => $regus[0]['nickname'],
+			'email' => $regus[0]['email'],
+			'userId' => $regus[0]['userId'],
+			'site' => $regus[0]['site'],
+			);
+		return $user_info;
+	}
 }
