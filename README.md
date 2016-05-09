@@ -5,6 +5,11 @@
 * [Начало работы](#Начало-работы-start)
 * [Методы](#Методы)
   * [base](#baseaid)
+  * [forum](#forumforum-pages)
+  * [isArchiveDead](#isarchivedeadaid-mode)
+  * [isTopicDead](#istopicdeadtid)
+  * [user](#useruid)
+
 ### Начало работы
 Скачиваем, подключаем:
 ```php
