@@ -2,7 +2,7 @@
 Получаем нужную инфу с каги без лишних ресурсозатрат.   
 Примеры смотри в `examples.php`
 ### Содержание
-* [Начало работы](#Начало-работы-start)
+* [Начало работы](#Начало-работы)
 * [Методы](#Методы)
   * [base](#baseaid)
   * [forum](#forumforum-pages)
@@ -121,6 +121,7 @@ $response = $kage->method(ARG);
 [0] => (
 	'nickname' => $nickname, //=> "Sewayuki"
 	'email' => $email, //=> "sewayuki[гав]gmail.com"
+	'userId' => $userId, //=> "9999"
 	'workInfo' => $workInfo //=> array()
 					),
 [1] => (...
@@ -128,6 +129,7 @@ $response = $kage->method(ARG);
 Где 
 * `nickname` - ник переводчика
 * `email` - емейл юзера
+* `userId` - Id юзера на форуме
 * `workInfo` - массив с информацией о переводах. Выглядит так:
 ```php
 [0] => (

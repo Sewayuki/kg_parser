@@ -110,7 +110,7 @@ class KageParser
 		$user_url = $this->kg_url . 'base.php?au=' . $uid;
 		$html = file_get_contents($user_url);
 		$html = iconv('windows-1251', 'UTF-8', $html);
-		$user_pattern = '#base\.php.+?<td class="row3">(?P<nickname>.+?)<\/td>.+?mail:<\/b><\/td><td>(?P<email>.+?)<\/td>.+?<\/b><blockquote>#s';
+		$user_pattern = '#base\.php.+?<td class="row3">(?P<nickname>.+?)<\/td>(?>.+?mail:<\/b><\/td><td>(?P<email>.+?)<\/td>).+?(<tr><td><b>Ф.+?viewprofile&u=(?P<userId>\d+).+?<\/td><\/tr>)?<\/table>#s';
 		$transl_pattern = '#<a href="base\.php\?id=(?P<translId>\d+)">(?P<translTitle>.+?)(<small>\((?P<role>.+?)\)<\/small>)?<\/a><br>#s';
 		preg_match_all($user_pattern, $html, $regus, PREG_SET_ORDER);
 		preg_match_all($transl_pattern, $html, $regtr, PREG_SET_ORDER);
@@ -124,6 +124,7 @@ class KageParser
 		$user_info = array(
 			'nickname' => $regus[0]['nickname'],
 			'email' => $regus[0]['email'],
+			'userId' => $regus[0]['userId'],
 			'workInfo' => $translInfo
 			);
 
