@@ -130,4 +130,52 @@ class KageParser
 
 		return $user_info;
 	}
+
+	public function topic($tid, $pages = 1, $last = true){
+		$topic_url = $this->kg_url . 'forum/viewtopic.php?t='.$tid.'&postdays=0&postorder=asc&start=';
+		$offset = ($pages*15) - 15;
+		$first_html = file_get_contents($topic_url . '0');
+		$first_html = iconv('windows-1251', 'UTF-8', $first_html);
+		$off_pattern = '#postorder=asc&amp;start=(?P<startNm>\d+)#s';
+		preg_match_all($off_pattern, $first_html, $regof);
+		$max_off = 0;
+		foreach ($regof['startNm'] as $off) {
+			if($max_off < $off){
+				$max_off = $off;
+			}
+		}
+		if($offset > $max_off){
+			$offset = $max_off;
+		}
+		if($last){
+			$offset = $max_off - $offset;
+			$messages = $this->getMsgs($topic_url,$offset,$max_off);
+		}else{
+			$messages = $this->getMsgs($topic_url,0,$offset);
+		}
+		//if last => offset->max_off
+		//if !last => 0->offset
+
+		return $messages;
+	}
+
+	private function getMsgs($link,$from,$to){
+		while($from <= $to){
+		
+		$html = file_get_contents($link . $from);
+		$html = iconv('windows-1251', 'UTF-8', $html);
+		$msg_pattern = '#<tr>.*?<span class="name">.*?<b>(?P<userName>.*?)<\/b><\/span><br \/><span class="postdetails">.*?<span class="postdetails">(?P<postDate>.*?)<span class="gen">.*?<span class="postbody">(?<postBody>.*?)<\/span><span class="postbody">.*?(К началу).*?(<a href="profile\.php\?mode=viewprofile&amp;u=((?P<userId>\d+)(.*?)?)"><img src.*?)?\s+<\/tr>\s+<\/table><\/td>\s+<\/tr>#s';
+		preg_match_all($msg_pattern, $html, $regmsg, PREG_SET_ORDER);
+		foreach ($regmsg as $msg) {
+			$post_data[] = array(
+			'userName' => $msg['userName'],
+			'postDate' => $msg['postDate'],
+			'postBody' => $msg['postBody'],
+			'userId' => $msg['userId']
+			);
+		}
+		$from += 15;
+		}
+		return $post_data;
+	}
 }
