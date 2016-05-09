@@ -24,26 +24,26 @@ $response = $kage->method(ARG);
 Возвращает индексированный массив вида:
 ```php
 [0] => (
-	'translateId' => $translateId,
-	'series' => $series,
-	'format' => $format,
-	'date' => $date,
-	'staff' => $staff[]
+	'translateId' => $translateId, //=> "50000"
+	'series' => $series, //=> "ТВ 10"
+	'format' => $format, //=> "ASS"
+	'date' => $date, //=> "30.02.2016"
+	'staff' => $staff[] //=> array()
 					),
 [1] => (...
 ```
 Где 
-* `translateId` - Id перевода
+* `translateId` - Id **перевода**
 * `series` - что переведено (например, ТВ 1-4)
 * `format` - формат сабов
 * `date` - последнее обновление
 * `staff` - массив с информацией о переводчиках. Выглядит так:
 ```php
 [0] => (
-	'subberId' => $subberId, //Id переводчика
-	'nickname' => $nickname, //ник переводчика
-	'role' => $role, //должность в переводе
-	'avatar' => $avatar //аватарка (например, 1717_44828424.png)
+	'subberId' => $subberId, //Id переводчика => "10000"
+	'nickname' => $nickname, //ник переводчика => "Sewayuki"
+	'role' => $role, //должность в переводе => "Переводчик"
+	'avatar' => $avatar //аватарка => "1717_44828424.png"
 					),
 [1] => (...
 ```
@@ -98,4 +98,35 @@ $response = $kage->method(ARG);
   
 **Возвращаемое значение**  
 Если темки не существует, возвращает `true`
+
+####user($uid)
+***
+Возвращает информацию о юзере архива.
+  
+**Аргументы**
+* `$uid` - Id юзера. Обязательный.
+  
+**Возвращаемое значение**  
+**Возвращаемое значение**  
+Возвращает индексированный массив вида:
+```php
+[0] => (
+	'nickname' => $nickname, //=> "Sewayuki"
+	'email' => $email, //=> "sewayuki[гав]gmail.com"
+	'workInfo' => $workInfo //=> array()
+					),
+[1] => (...
+```
+Где 
+* `nickname` - ник переводчика
+* `email` - емейл юзера
+* `workInfo` - массив с информацией о переводах. Выглядит так:
+```php
+[0] => (
+	'titleId' => $subberId, //Id тайтла =>"5191"
+	'titleName' => $nickname, //строка тайтла =>"Konosuba ТВ 10"
+	'role' => $role //должность в переводе =>"Переводчик"
+					),
+[1] => (...
+```
 
