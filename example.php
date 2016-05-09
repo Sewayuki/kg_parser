@@ -1,5 +1,5 @@
 <?php
-require_once 'kg_parser.php';
+require_once 'KageParser.php';
 
 ///~~~~ПРИМЕР 1~~~~//
 

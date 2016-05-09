@@ -13,7 +13,7 @@
 ### Начало работы
 Скачиваем, подключаем:
 ```php
-require_once 'kg_parser.php';
+require_once 'KageParser.php';
 ```
 Создаём объект и юзаем нужный метод:
 ```php
