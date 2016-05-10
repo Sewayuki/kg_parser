@@ -24,7 +24,7 @@ class KageParser
 
 	public function forum($forum, $pages = 1){
 		$forum_url = $this->kg_url . 'forum/viewforum.php?f=' . $forum . '&topicdays=0&start=';
-		$forum_pattern = '#class=.topictitle.><a href=.viewtopic\.php\?t=(?P<topicId>\d+).*?class=.topictitle.>(?P<topicTitle>.*?)<\/a><\/span>.*?viewprofile&amp;u=(?P<authorId>\d+)[&;>=a-z\d]*(.>)(?P<authorName>.+?)<\/a><\/span>.*?nowrap=.nowrap.><span class=.postdetails.>(?P<lastMsg>.*?)<br \/>#s';
+		$forum_pattern = '#class=.topictitle.>(<b>.*?)?<a href=.viewtopic\.php\?t=(?P<topicId>\d+).*?class=.topictitle.>(?P<topicTitle>.*?)<\/a><\/span>.*?<span class="name">(<a href="profile\.php\?mode=viewprofile&amp;u=(?P<authorId>\d+)">)?(?P<authorName>.+?)(<\/a>)?<\/span>.*?nowrap=.nowrap.><span class=.postdetails.>(?P<lastMsg>.*?)<br \/>#s';
 		$start = 0;
 
 		for ($i=0; $i < $pages; $i++) { 
