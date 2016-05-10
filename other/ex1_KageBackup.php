@@ -19,9 +19,9 @@ class KageBackup
         $this->kage_parser = new KageParser();
 
         //параметры коннекта к базе. Юзер, пароль, данные о базе и массив опций
-        $user_db = "postgres";
-        $pass_db = "pp0099oo";
-        $dsn = "pgsql:host=127.0.0.1;port=5432;dbname=yii2basic"; //pgsql:host=127.0.0.1;port=5000;dbname=somebase
+        $user_db = "";
+        $pass_db = "";
+        $dsn = ""; //pgsql:host=127.0.0.1;port=5000;dbname=somebase
         $opt = array(
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
@@ -86,21 +86,24 @@ class KageBackup
         $sth = $this->pdo->prepare("SELECT new_text FROM kage_posts WHERE pid=?");
         $sth->execute(array($pid));
         $post_text = $sth->fetch(PDO::FETCH_ASSOC);
+
+        $date_now = time();
         //echo $pid . ' -> '. $uname . "\n";
         if (strcmp($post_text['new_text'], $text) != 0 && strlen($post_text['new_text']) > 1) {
 
             //исправление записи в базе, если текст сообщений не совпал
-            $vth = $this->pdo->prepare("UPDATE kage_posts SET new_text = :text WHERE pid=:pid");
+            $vth = $this->pdo->prepare("UPDATE kage_posts SET new_text = :text, imported_at = :date_now WHERE pid=:pid");
             $vth->execute(array(
                 'text' => $text,
-                'pid' => $pid
+                'pid' => $pid,
+                'date_now' => $date_now
             ));
             return false;
         }
         if (strlen($post_text['new_text'])<2) {
             ++$this->lastPostId;
-            $date_now = time();
             $last_id = $this->lastPostId;
+            $postDate = $this->kage_parser->kageTime($postDate);
             $vth = $this->pdo->prepare("INSERT INTO kage_posts (id, uid, uname, post_text, date, imported_at, status, pid, new_text, topic_id) VALUES ('$last_id', :uid, :uname, :post_text, :post_date, :date_now, 'imported', :pid, :post_text, :topic_id)");
             $vth->execute(array(
                 'uid' => $uid,

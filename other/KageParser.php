@@ -178,4 +178,25 @@ class KageParser
 		}
 		return $post_data;
 	}
+
+	public function kageTime($inputTime){
+		$timePattern = '#(?P<m>.{3})\s(?P<d>\d+),\s(?P<y>\d+)\s(?P<h>\d+):(?P<i>\d+)#s';
+		preg_match($timePattern, $inputTime, $reg_time);
+
+		$m = $reg_time['m'];
+		$ruMs = array('Янв','Фев','Мар','Апр',
+			'Май','Июн','Июл','Авг',
+			'Сен','Окт','Ноя','Дек');
+		$i = 0;
+		foreach ($ruMs as $ruM) {
+			++$i;
+			if (strpos($ruM, $m) !== false) {
+				$m = $i;
+				break;
+            }
+		}
+
+		$endTime = mktime($reg_time['h'],$reg_time['i'],0,$m,$reg_time['d'],$reg_time['y']);
+		return $endTime;
+	}
 }

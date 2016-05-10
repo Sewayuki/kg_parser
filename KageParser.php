@@ -180,7 +180,7 @@ class KageParser
 	}
 
 	public function kageTime($inputTime){
-		$timePattern = '#(?P<m>[а-яА-Я]{3})\s(?P<d>\d+),\s(?P<y>\d+)\s(?P<h>\d+):(?P<i>\d+)#s';
+		$timePattern = '#(?P<m>.{3})\s(?P<d>\d+),\s(?P<y>\d+)\s(?P<h>\d+):(?P<i>\d+)#s';
 		preg_match($timePattern, $inputTime, $reg_time);
 
 		$m = $reg_time['m'];
@@ -196,7 +196,7 @@ class KageParser
             }
 		}
 
-		$endTime = mktime($reg_time['h'],$reg_time['i'],$reg_time['s'],$m,$reg_time['d'],$reg_time['y']);
+		$endTime = mktime($reg_time['h'],$reg_time['i'],0,$m,$reg_time['d'],$reg_time['y']);
 		return $endTime;
 	}
 }
