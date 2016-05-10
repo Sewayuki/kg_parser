@@ -19,9 +19,9 @@ class KageBackup
         $this->kage_parser = new KageParser();
 
         //параметры коннекта к базе. Юзер, пароль, данные о базе и массив опций
-        $user_db = "";
-        $pass_db = "";
-        $dsn = ""; //pgsql:host=127.0.0.1;port=5000;dbname=somebase
+        $user_db = "postgres";
+        $pass_db = "pp0099oo";
+        $dsn = "pgsql:host=127.0.0.1;port=5432;dbname=yii2basic"; //pgsql:host=127.0.0.1;port=5000;dbname=somebase
         $opt = array(
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
