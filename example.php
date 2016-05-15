@@ -17,11 +17,6 @@ foreach ($topics as $topic) {
 	// вывести название темки
 	echo $topic['topicTitle'] . "\n";
 
-	// другие примеры 
-	//echo $topic['topicId'] . "\n"; //вывести айди темки
-	//echo $topic['authorId'] . "\n"; //вывести айди автора 
-	//echo $topic['authorName'] . "\n"; //вывести ник автора
-	//echo $topic['lastMsg'] . "\n"; //вывести дату последнего сообщения
 }
 
 
